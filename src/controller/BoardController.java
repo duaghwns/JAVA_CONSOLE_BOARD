@@ -19,8 +19,8 @@ public class BoardController {
     public void start() throws IOException{
         Scanner sc = new Scanner(System.in);
         int input = 0;
-
         do {
+
             System.out.println("1. 글쓰기 2. 게시물보기 3. 종료");
             input = sc.nextInt();
             switch (input){

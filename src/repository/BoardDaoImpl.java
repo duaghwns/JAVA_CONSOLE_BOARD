@@ -14,7 +14,6 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public Board read(long id) {
-
         return null;
     }
 
