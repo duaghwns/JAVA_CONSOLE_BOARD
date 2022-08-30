@@ -10,6 +10,8 @@ public class Board {
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 
+    public Board(){}
+
     public Board(long no, String title, String writer, String content, LocalDateTime regDate) {
         this.no = no;
         this.title = title;
