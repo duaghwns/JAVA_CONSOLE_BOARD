@@ -1,13 +1,13 @@
 package entity;
 
 public class BoardNoSequence {
-    private long no;
+    private long no = 1;
 
     private BoardNoSequence(){}
 
     private static BoardNoSequence instance = new BoardNoSequence();
 
-    private BoardNoSequence getInstance() {
+    public static BoardNoSequence getInstance() {
         return instance;
     }
 

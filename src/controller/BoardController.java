@@ -1,6 +1,7 @@
 package controller;
 
 import entity.Board;
+import entity.BoardNoSequence;
 import repository.BoardDao;
 import repository.BoardRepository;
 
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class BoardController {
 
     BoardRepository repository = BoardRepository.getInstance();
+    BoardNoSequence sequence = BoardNoSequence.getInstance();
 
     public void start() throws IOException{
         Scanner sc = new Scanner(System.in);
@@ -31,24 +33,26 @@ public class BoardController {
     }
 
     public void insert() throws IOException {
-        Board board = new Board();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("제목 : ");
-        String title = br.readLine();
-        System.out.println("내용을 입력해주세요");
-        String content = br.readLine();
+        try {
+            Board board = new Board();
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("제목 : ");
+            String title = br.readLine();
+            System.out.println("내용을 입력해주세요");
+            String content = br.readLine();
 
-        LocalDateTime now = LocalDateTime.now();
 
+            board.setNo(sequence.getNo());
+            board.setTitle(title);
+            board.setContent(content);
+            board.setRegDate(LocalDateTime.now());
+            sequence.setNo(sequence.getNo()+1);
+            repository.boardList.add(board);
 
-        board.setNo(0);
-        board.setTitle(title);
-        board.setContent(content);
-        board.setRegDate(now);
-
-        repository.boardList.add(board);
-
-        br.close();
+            br.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void update(){
