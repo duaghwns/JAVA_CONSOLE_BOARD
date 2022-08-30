@@ -1,6 +1,8 @@
 package controller;
 
 import entity.Board;
+import repository.BoardDao;
+import repository.BoardRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class BoardController {
+
+    BoardRepository repository = BoardRepository.getInstance();
+
     public void start() throws IOException{
         Scanner sc = new Scanner(System.in);
         int input = 0;
@@ -34,10 +39,15 @@ public class BoardController {
         String content = br.readLine();
 
         LocalDateTime now = LocalDateTime.now();
+
+
         board.setNo(0);
         board.setTitle(title);
         board.setContent(content);
         board.setRegDate(now);
+
+        repository.boardList.add(board);
+
         br.close();
     }
 
