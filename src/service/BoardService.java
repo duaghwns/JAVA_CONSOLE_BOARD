@@ -15,8 +15,6 @@ public class BoardService {
         board.setNo(boardNo);
         board.setRegDate(LocalDateTime.now());
         dao.insert(board);
-
-
     }
 
 

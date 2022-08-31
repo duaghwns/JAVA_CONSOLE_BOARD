@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBase {
-    static DataBase instance;
+    private static DataBase instance;
 
     public static DataBase getInstance(){
         if (instance == null) {

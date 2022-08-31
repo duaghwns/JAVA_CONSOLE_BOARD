@@ -4,7 +4,7 @@ import db.DataBase;
 import vo.BoardVO;
 
 public class BoardDAO {
-    static BoardDAO instance;
+    private static BoardDAO instance;
     DataBase db = DataBase.getInstance();
 
     public static  BoardDAO getInstance() {
