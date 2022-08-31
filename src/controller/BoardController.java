@@ -1,74 +1,63 @@
 package controller;
 
-import entity.Board;
-import entity.BoardNoSequence;
-import repository.BoardDao;
-import repository.BoardRepository;
+import db.DataBase;
+import service.BoardService;
+import vo.BoardVO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class BoardController {
+    DataBase db = DataBase.getInstance();
 
-    BoardRepository repository = BoardRepository.getInstance();
-    BoardNoSequence sequence = BoardNoSequence.getInstance();
+    public void mainView() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("------------------------------");
+        System.out.println("-------------게시판-------------");
+        System.out.println("------------------------------");
 
-    public void start() throws IOException{
-        Scanner sc = new Scanner(System.in);
-        int input = 0;
-        do {
-
-            System.out.println("1. 글쓰기 2. 게시물보기 3. 종료");
-            input = sc.nextInt();
-            switch (input){
-                case 1: insert(); break;
-                case 2: view(); break;
-            }
+        if(db.getUserName() == null){
+            System.out.print("유저 이름을 입력하세요 : ");
+            db.setUserName(br.readLine());
         }
-        while(input!=3);
-        sc.close();
+
+        br.close();
     }
 
-    public void insert() throws IOException {
-        try {
-            Board board = new Board();
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("제목 : ");
-            String title = br.readLine();
-            System.out.println("내용을 입력해주세요");
-            String content = br.readLine();
+    void choiceView() throws IOException {
+        System.out.println("1.등록 2.삭제 3.게시물보기");
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int input = Integer.parseInt(br.readLine());
 
-            board.setNo(sequence.getNo());
-            board.setTitle(title);
-            board.setContent(content);
-            board.setRegDate(LocalDateTime.now());
-            sequence.setNo(sequence.getNo()+1);
-            repository.boardList.add(board);
+        switch (input){
+            case 1:
+                BoardService service = new BoardService();
+                BoardVO board = new BoardVO();
 
-            br.close();
-        } catch (Exception e) {
-            System.out.println(e);
+                System.out.print("제목 : ");
+                String title = br.readLine();
+                System.out.println("내용을 입력하세요.");
+                String content = br.readLine();
+
+                board.setTitle(title);
+                board.setContent(content);
+                board.setWriter(db.getUserName());
+
+                service.insert(board);
+                break;
+
+            case 2: break;
+            default:
+                System.out.println("다시 입력해주세요");
         }
+
+        br.close();
     }
 
-    public void update(){
 
-    }
 
-    public void delete(){
-
-    }
-
-    public void view() {
-
-    }
-
-    public void readAll() {
-
-    }
 
 }

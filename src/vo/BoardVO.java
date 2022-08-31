@@ -1,34 +1,31 @@
-package entity;
+package vo;
 
 import java.time.LocalDateTime;
 
-public class Board {
-    private long no;
-    private String title;
-    private String writer;
-    private String content;
-    private LocalDateTime regDate;
-    private LocalDateTime modDate;
+public class BoardVO {
+    long no;
+    String title;
+    String writer;
+    String content;
+    LocalDateTime regDate;
 
-    public Board(){}
+    public BoardVO(){}
 
-    public Board(long no, String title, String writer, String content, LocalDateTime regDate) {
+    public BoardVO(long no, String title, String writer, String content, LocalDateTime regDate) {
         this.no = no;
         this.title = title;
         this.writer = writer;
         this.content = content;
         this.regDate = regDate;
     }
-
     @Override
     public String toString() {
-        return "Board{" +
+        return "BoardVO{" +
                 "no=" + no +
                 ", title='" + title + '\'' +
                 ", writer='" + writer + '\'' +
                 ", content='" + content + '\'' +
                 ", regDate=" + regDate +
-                ", modDate=" + modDate +
                 '}';
     }
 
@@ -70,13 +67,5 @@ public class Board {
 
     public void setRegDate(LocalDateTime regDate) {
         this.regDate = regDate;
-    }
-
-    public LocalDateTime getModDate() {
-        return modDate;
-    }
-
-    public void setModDate(LocalDateTime modDate) {
-        this.modDate = modDate;
     }
 }
