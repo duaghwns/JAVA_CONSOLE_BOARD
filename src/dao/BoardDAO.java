@@ -3,9 +3,11 @@ package dao;
 import db.DataBase;
 import vo.BoardVO;
 
+import java.util.List;
+
 public class BoardDAO {
     private static BoardDAO instance;
-    DataBase db = DataBase.getInstance();
+    List<BoardVO> boardList = DataBase.getInstance().getBoardVO();
 
     public static  BoardDAO getInstance() {
         if (instance == null) {
@@ -16,10 +18,18 @@ public class BoardDAO {
 
     protected BoardDAO(){}
 
-
     public void insert(BoardVO board) {
-        db.getBoardVO().add(board);
+        boardList.add(board);
     }
 
+    public int delete(long no) {
+        if(boardList.remove(no)){
+            return 1;
+        }
+        return 0;
+    }
 
+    public List<BoardVO> findAll() {
+        return boardList;
+    }
 }
