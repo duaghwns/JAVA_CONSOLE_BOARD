@@ -15,17 +15,14 @@ public class DataBase {
         return instance;
     }
 
-    protected DataBase(){
-    }
+    protected DataBase(){}
 
-
-    List<BoardVO> boardVO = new ArrayList<>();
+    private List<BoardVO> boardVO = new ArrayList<>();
+    private String userName;
 
     public List<BoardVO> getBoardVO() {
         return boardVO;
     }
-
-    String userName;
 
     public String getUserName() {
         return userName;

@@ -3,11 +3,11 @@ package vo;
 import java.time.LocalDateTime;
 
 public class BoardVO {
-    long no;
-    String title;
-    String writer;
-    String content;
-    LocalDateTime regDate;
+    private long no;
+    private String title;
+    private String writer;
+    private String content;
+    private LocalDateTime regDate;
 
     public BoardVO(){}
 
