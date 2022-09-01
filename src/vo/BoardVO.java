@@ -1,5 +1,6 @@
 package vo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BoardVO {
@@ -7,11 +8,11 @@ public class BoardVO {
     private String title;
     private String writer;
     private String content;
-    private LocalDateTime regDate;
+    private LocalDate regDate;
 
     public BoardVO(){}
 
-    public BoardVO(long no, String title, String writer, String content, LocalDateTime regDate) {
+    public BoardVO(long no, String title, String writer, String content, LocalDate regDate) {
         this.no = no;
         this.title = title;
         this.writer = writer;
@@ -61,11 +62,11 @@ public class BoardVO {
         this.content = content;
     }
 
-    public LocalDateTime getRegDate() {
+    public LocalDate getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(LocalDateTime regDate) {
+    public void setRegDate(LocalDate regDate) {
         this.regDate = regDate;
     }
 }
