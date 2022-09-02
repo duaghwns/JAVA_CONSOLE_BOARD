@@ -28,7 +28,7 @@ public class BoardController {
 
 
         do {
-            System.out.println("글번호 | \t\t 제목 \t\t | \t 작성자 \t| \t 작성일");
+            System.out.println("번호 | \t\t 제목 \t\t | \t 작성자 \t| \t 작성일");
 
             for(BoardVO board : service.findAll()){
                 System.out.printf("| %s | %s | %s | %s \n", board.getNo(), board.getTitle(), board.getWriter(), board.getRegDate());
