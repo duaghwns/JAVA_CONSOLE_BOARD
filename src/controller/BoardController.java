@@ -7,7 +7,6 @@ import vo.BoardVO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class BoardController {
     DataBase db = DataBase.getInstance();
