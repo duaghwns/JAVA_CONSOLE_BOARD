@@ -62,16 +62,8 @@ public class BoardController {
 
             case 2:
                 System.out.print("삭제할 게시물 번호를 입력하세요 : ");
-                long boardNo = Long.parseLong(br.readLine());
-                BoardVO findedBoard = service.findBoard(boardNo);
 
-                while(findedBoard != null) {
-                    System.out.println("일치하는 게시글 번호가 없습니다 다시 입력해주세요.");
-                    boardNo = Long.parseLong(br.readLine());
-                    findedBoard = service.findBoard(boardNo);
-                }
-
-                if(service.delete(findedBoard)) {
+                if(service.delete(Long.parseLong(br.readLine()))) {
                     System.out.println("삭제되었습니다.");
                 }
 

@@ -22,8 +22,8 @@ public class BoardDAO {
         boardList.add(board);
     }
 
-    public int delete(long no) {
-        if(boardList.remove(no)){
+    public int delete(BoardVO board) {
+        if(boardList.remove(board)){
             return 1;
         }
         return 0;

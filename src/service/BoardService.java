@@ -4,6 +4,9 @@ import dao.BoardDAO;
 import db.DataBase;
 import vo.BoardVO;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,11 +32,26 @@ public class BoardService {
         dao.insert(board);
     }
 
-    public boolean delete(BoardVO board){
-        if(dao.delete(board.getNo())==1){
-            return true;
+    public boolean delete(long boardNo) {
+        try {
+            BoardVO findedBoard = findBoard(boardNo);
+
+            while (findedBoard != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("일치하는 게시글 번호가 없습니다 다시 입력해주세요.");
+                boardNo = Long.parseLong(br.readLine());
+                findedBoard = findBoard(boardNo);
+                br.close();
+            }
+
+            if (dao.delete(findedBoard) == 1) {
+                return true;
+            }
+            return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
         }
-        return false;
     }
 
     public BoardVO findBoard(long no){
