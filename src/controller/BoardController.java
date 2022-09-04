@@ -12,33 +12,43 @@ public class BoardController {
     DataBase db = DataBase.getInstance();
     BoardService service = new BoardService();
 
-    public void mainView() throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int input = 4;
-
-        System.out.println("------------------------------");
-        System.out.println("-------------게시판-------------");
-        System.out.println("------------------------------");
-
-        if(db.getUserName() == null){
-            System.out.print("유저 이름을 입력하세요 : ");
-            db.setUserName(br.readLine());
-        }
-
-
-        do {
-            System.out.println("번호 | \t\t 제목 \t\t | \t 작성자 \t| \t 작성일");
-
-            for(BoardVO board : service.findAll()){
-                System.out.printf("| %s | %s | %s | %s \n", board.getNo(), board.getTitle(), board.getWriter(), board.getRegDate());
+    public void mainView() {
+        try{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("------------------------------");
+            System.out.println("-------------게시판-------------");
+            System.out.println("------------------------------");
+            int choiceNum=4;
+            if(db.getUserName() == null){
+                System.out.print("유저 이름을 입력하세요 : ");
+                db.setUserName(br.readLine());
             }
 
-            System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");
-            input = Integer.parseInt(br.readLine());
-            choiceView(input);
-        } while (input != 4);
 
-        br.close();
+            do {
+                System.out.println("번호 | \t\t 제목 \t\t | \t 작성자 \t| \t 작성일");
+
+                for(BoardVO board : service.findAll()){
+                    System.out.printf("| %s | %s | %s | %s \n", board.getNo(), board.getTitle(), board.getWriter(), board.getRegDate());
+                }
+
+                System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");
+                String input = br.readLine();
+                while(input.getClass().getName()=="java.lang.String"){
+                    System.out.println("다시 입력해주세요");
+                    input = br.readLine();
+                }
+                choiceNum = Integer.parseInt(input);
+                choiceView(choiceNum);
+            } while (choiceNum != 4);
+
+            br.close();
+        } catch(IOException ioe){
+            System.out.println(ioe);
+        } catch (NumberFormatException nfe){
+            System.out.println(nfe);
+        }
+
     }
 
     void choiceView(int input) throws IOException {
