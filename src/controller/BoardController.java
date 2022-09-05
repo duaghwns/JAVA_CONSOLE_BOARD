@@ -33,11 +33,10 @@ public class BoardController {
                 }
 
                 System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");
+
                 String input = br.readLine();
-                while(input.getClass().getName()=="java.lang.String"){
-                    System.out.println("다시 입력해주세요");
-                    input = br.readLine();
-                }
+
+
                 choiceNum = Integer.parseInt(input);
                 choiceView(choiceNum);
             } while (choiceNum != 4);
