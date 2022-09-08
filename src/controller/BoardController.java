@@ -71,9 +71,12 @@ public class BoardController {
 
             case 2:
                 System.out.print("삭제할 게시물 번호를 입력하세요 : ");
-
                 if(service.delete(Long.parseLong(br.readLine()))) {
                     System.out.println("삭제되었습니다.");
+                } else{
+                    System.out.print("다시 입력해주세요 : ");
+
+
                 }
 
                 break;
