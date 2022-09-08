@@ -1,4 +1,5 @@
 import controller.BoardController;
+import db.DataBase;
 
 import java.io.IOException;
 
