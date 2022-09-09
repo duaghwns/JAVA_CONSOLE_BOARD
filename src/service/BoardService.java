@@ -35,20 +35,12 @@ public class BoardService {
     public boolean delete(long boardNo) {
         try {
             BoardVO findedBoard = findBoard(boardNo);
-
-            while (findedBoard != null) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println("일치하는 게시글 번호가 없습니다 다시 입력해주세요.");
-                boardNo = Long.parseLong(br.readLine());
-                findedBoard = findBoard(boardNo);
-                br.close();
-            }
-
             if (dao.delete(findedBoard) == 1) {
                 return true;
             }
             return false;
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             System.out.println(e);
             return false;
         }

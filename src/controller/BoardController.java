@@ -33,11 +33,10 @@ public class BoardController {
                 }
 
                 System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");
+
                 String input = br.readLine();
-                while(input.getClass().getName()=="java.lang.String"){
-                    System.out.println("다시 입력해주세요");
-                    input = br.readLine();
-                }
+
+
                 choiceNum = Integer.parseInt(input);
                 choiceView(choiceNum);
             } while (choiceNum != 4);
@@ -72,9 +71,12 @@ public class BoardController {
 
             case 2:
                 System.out.print("삭제할 게시물 번호를 입력하세요 : ");
-
                 if(service.delete(Long.parseLong(br.readLine()))) {
                     System.out.println("삭제되었습니다.");
+                } else{
+                    System.out.print("다시 입력해주세요 : ");
+
+
                 }
 
                 break;
