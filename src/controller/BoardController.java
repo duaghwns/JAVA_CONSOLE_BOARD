@@ -67,8 +67,6 @@ public class BoardController {
             case 3:
                 viewBoard(br);
                 break;
-            default:
-                System.out.println("다시 입력해주세요");
         }
     }
 
@@ -114,8 +112,8 @@ public class BoardController {
             Long findBoardNo = Long.parseLong(br.readLine());
 
 //            BoardVO board = service.findBoard(findBoardNo);
-
-            Optional<BoardVO> board = Optional.ofNullable(service.findBoard(findBoardNo));
+            service.findBoard(findBoardNo);
+            Optional<BoardVO> board = Optional.ofNullable(BoardVO);
 
             System.out.println("------------------------------------------------");
             System.out.printf(" 제목 : %s\n",board.get().getTitle());
