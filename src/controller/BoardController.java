@@ -2,11 +2,14 @@ package controller;
 
 import db.DataBase;
 import service.BoardService;
+import util.BoardTextConst;
 import vo.BoardVO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import static util.BoardUtil.*;
 
 public class BoardController {
     DataBase db = DataBase.getInstance();
@@ -26,10 +29,14 @@ public class BoardController {
 
 
             do {
-                System.out.println("번호 | \t\t 제목 \t\t | \t 작성자 \t| \t 작성일");
+                System.out.println("  번호  |\t\t\t 제목 \t\t\t| \t 작성자 \t | \t 작성일");
 
                 for(BoardVO board : service.findAll()){
-                    System.out.printf("| %s | %s | %s | %s \n", board.getNo(), board.getTitle(), board.getWriter(), board.getRegDate());
+                    System.out.printf(" %s | %s | %s | %s \n"
+                            , sliceBoardText(board.getNo()+"",BoardTextConst.BOARD_NO.label())
+                            , sliceBoardText(board.getTitle(),BoardTextConst.BOARD_TITLE.label())
+                            , sliceBoardText(board.getWriter(), BoardTextConst.BOARD_WRITER.label())
+                            , sliceBoardText(board.getRegDate()+"", BoardTextConst.BOARD_DATE.label()));
                 }
 
                 System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");

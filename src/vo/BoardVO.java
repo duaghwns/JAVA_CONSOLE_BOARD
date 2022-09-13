@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BoardVO {
-    private long no;
+    private Long no;
     private String title;
     private String writer;
     private String content;
