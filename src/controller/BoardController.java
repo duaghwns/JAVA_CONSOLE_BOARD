@@ -8,6 +8,7 @@ import vo.BoardVO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 import static util.BoardUtil.*;
 
@@ -15,15 +16,12 @@ public class BoardController {
     DataBase db = DataBase.getInstance();
     BoardService service = new BoardService();
 
-    public void mainView() {
+    public void mainView() throws IOException {
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             int choiceNum = 4;
-            if(db.getUserName() == null){
-                System.out.print("유저 이름을 입력하세요 : ");
-                db.setUserName(br.readLine());
-            }
+            setUserName(br);
 
             do {
                 System.out.println("  번호  |\t\t\t 제목 \t\t\t| \t 작성자 \t | \t 작성일");
@@ -40,54 +38,57 @@ public class BoardController {
 
                 String input = br.readLine();
                 choiceNum = Integer.parseInt(input);
-                choiceView(choiceNum);
+                choiceView(br, choiceNum);
+
             } while (choiceNum != 4);
+
             br.close();
-        } catch(IOException ioe){
-            System.out.println(ioe);
         } catch (NumberFormatException nfe){
             System.out.println("숫자만 입력 가능합니다");
             mainView();
         }
 
     }
+    void setUserName(BufferedReader br) throws IOException{
+        if(db.getUserName() == null){
+            System.out.print("유저 이름을 입력하세요 : ");
+            db.setUserName(br.readLine());
+        }
+    }
 
-    void choiceView(int input) throws IOException {
+    void choiceView(BufferedReader br, int input) throws IOException {
         switch (input){
             case 1:
-                insert();
+                insert(br);
                 break;
             case 2:
-                delete();
+                delete(br);
                 break;
             case 3:
-                viewBoard();
+                viewBoard(br);
                 break;
             default:
                 System.out.println("다시 입력해주세요");
         }
     }
 
-    private void delete() throws IOException{
+    private void delete(BufferedReader br) throws IOException{
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.print("삭제할 게시물 번호를 입력하세요 : ");
 
             if (service.delete(Long.parseLong(br.readLine()))) {
                 System.out.println("삭제되었습니다.");
             }
 
-            br.close();
         } catch (NumberFormatException numberFormatException) {
             System.out.println("숫자만 입력 가능합니다");
-            delete();
+            delete(br);
         }
         
     }
 
-    private void insert() throws IOException{
+    private void insert(BufferedReader br) throws IOException{
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             BoardVO newBoard = new BoardVO();
 
             System.out.print("제목 : ");
@@ -100,35 +101,34 @@ public class BoardController {
             newBoard.setWriter(db.getUserName());
 
             service.insert(newBoard);
-            br.close();
         } catch (NumberFormatException numberFormatException) {
             System.out.println("숫자만 입력 가능합니다");
-            insert();
+            insert(br);
         }
     }
 
-    private void viewBoard() throws IOException{
+    private void viewBoard(BufferedReader br) throws IOException{
         try{
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("보고싶은 게시글 번호를 입력하세요 : ");
 
             Long findBoardNo = Long.parseLong(br.readLine());
 
-            BoardVO board = service.findBoard(findBoardNo);
+//            BoardVO board = service.findBoard(findBoardNo);
+
+            Optional<BoardVO> board = Optional.ofNullable(service.findBoard(findBoardNo));
 
             System.out.println("------------------------------------------------");
-            System.out.printf(" 제목 : %s\n",board.getTitle());
+            System.out.printf(" 제목 : %s\n",board.get().getTitle());
             System.out.println("------------------------------------------------");
-            System.out.printf(" 작성자 : %s\n",board.getWriter());
+            System.out.printf(" 작성자 : %s\n",board.get().getWriter());
             System.out.println("------------------------------------------------");
-            System.out.printf(" 내용 : %s\n",board.getContent());
+            System.out.printf(" 내용 : %s\n",board.get().getContent());
             System.out.println("------------------------------------------------");
-            System.out.printf(" 작성일 : %s\n",board.getRegDate());
+            System.out.printf(" 작성일 : %s\n",board.get().getRegDate());
             System.out.println("------------------------------------------------");
 
-            br.close();
         } catch (NumberFormatException numberFormatException){
-            viewBoard();
+            viewBoard(br);
         }
     }
 }
