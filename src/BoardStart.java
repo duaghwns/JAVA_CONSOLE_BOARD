@@ -1,11 +1,10 @@
 import controller.BoardController;
-import db.DataBase;
-
-import java.io.IOException;
 
 public class BoardStart {
-    public static void main(String[] args) throws IOException {
-        BoardController bc = new BoardController();
-        bc.mainView();
+    public static void main(String[] args) {
+        System.out.println("------------------------------");
+        System.out.println("-------------게시판-------------");
+        System.out.println("------------------------------");
+        new BoardController().mainView();
     }
 }
