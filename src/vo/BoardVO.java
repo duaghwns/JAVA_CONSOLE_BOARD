@@ -12,13 +12,6 @@ public class BoardVO {
 
     public BoardVO(){}
 
-    public BoardVO(long no, String title, String writer, String content, LocalDate regDate) {
-        this.no = no;
-        this.title = title;
-        this.writer = writer;
-        this.content = content;
-        this.regDate = regDate;
-    }
     @Override
     public String toString() {
         return "BoardVO{" +
