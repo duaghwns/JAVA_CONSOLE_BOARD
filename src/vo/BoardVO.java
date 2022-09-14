@@ -1,7 +1,6 @@
 package vo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class BoardVO {
     private Long no;

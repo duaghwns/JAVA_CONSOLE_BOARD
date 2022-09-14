@@ -18,6 +18,7 @@ public class DataBase {
     protected DataBase(){}
 
     private List<BoardVO> boardVO = new ArrayList<>();
+    private Long boardSeq;
     private String userName;
 
     public List<BoardVO> getBoardVO() {
@@ -27,6 +28,15 @@ public class DataBase {
     public String getUserName() {
         return userName;
     }
+
+    public Long getBoardSeq() {
+        if(this.boardSeq == null){
+            setBoardSeq(0);
+        }
+        return boardSeq;
+    }
+
+    public void setBoardSeq(long seq) { this.boardSeq = seq; }
 
     public void setUserName(String userName) {
         this.userName = userName;

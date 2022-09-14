@@ -1,6 +1,5 @@
 package controller;
 
-import db.DataBase;
 import service.BoardService;
 import util.BoardTextConst;
 import vo.BoardVO;
@@ -8,11 +7,13 @@ import vo.BoardVO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static util.BoardUtil.*;
 
 public class BoardController {
-    DataBase db = DataBase.getInstance();
     BoardService service = new BoardService();
 
     public void mainView() throws IOException {
@@ -20,7 +21,7 @@ public class BoardController {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             // User 이름 입력받기
-            if(db.getUserName() == null) {
+            if(service.getUserName() == null) {
                 setUserName(br);
             }
             // 게시판 전체 목록 보여주기
@@ -33,19 +34,33 @@ public class BoardController {
         }
     }
 
+    /**
+     *게시판 전체 목록 조회
+     * @param br
+     * @throws IOException
+     */
     private void viewAllBoard(BufferedReader br) throws IOException{
         try{
             int selectNumber;
+
             do {
                 System.out.println("  번호  |\t\t\t 제목 \t\t\t| \t 작성자 \t | \t 작성일");
 
-                for(BoardVO board : service.findAll()){
+                // 최신으로 생성된 게시물이 맨 위로 정렬되어 출력하기 위해 List 객체 새롭게 생성
+                List<BoardVO> boardList = new ArrayList<>(service.findAll());
+
+                Collections.reverse(boardList);
+
+                for(BoardVO board : boardList){
                     System.out.printf(" %s | %s | %s | %s \n"
                             , sliceBoardText(board.getNo()+"",BoardTextConst.BOARD_NO.label())
                             , sliceBoardText(board.getTitle(),BoardTextConst.BOARD_TITLE.label())
                             , sliceBoardText(board.getWriter(), BoardTextConst.BOARD_WRITER.label())
-                            , sliceBoardText(board.getRegDate()+"", BoardTextConst.BOARD_DATE.label()));
+                            , sliceBoardText(board.getRegDate()+"", BoardTextConst.BOARD_DATE.label())
+                    );
                 }
+
+                boardList.clear();
 
                 System.out.println("\n1.등록 2.삭제 3.게시물보기 4.작성자변경 5.종료");
                 selectNumber = Integer.parseInt(br.readLine());
@@ -58,6 +73,12 @@ public class BoardController {
         }
     }
 
+    /**
+     * 전달받은 input 값으로 동작 수행
+     * @param br BufferedReader
+     * @param input int
+     * @throws IOException
+     */
     void choiceView(BufferedReader br, int input) throws IOException {
         switch (input){
             case 1:
@@ -75,6 +96,11 @@ public class BoardController {
         }
     }
 
+    /**
+     * 삭제 기능
+     * @param br
+     * @throws IOException
+     */
     private void delete(BufferedReader br) throws IOException{
         try {
             System.out.print("삭제할 게시물 번호를 입력하세요 : ");
@@ -90,6 +116,11 @@ public class BoardController {
         
     }
 
+    /**
+     * 게시물 생성
+     * @param br
+     * @throws IOException
+     */
     private void insert(BufferedReader br) throws IOException{
         try {
             BoardVO newBoard = new BoardVO();
@@ -101,7 +132,7 @@ public class BoardController {
 
             newBoard.setTitle(title);
             newBoard.setContent(content);
-            newBoard.setWriter(db.getUserName());
+            newBoard.setWriter(service.getUserName());
 
             service.insert(newBoard);
         } catch (NumberFormatException numberFormatException) {
@@ -111,10 +142,14 @@ public class BoardController {
     }
 
 
-
+    /**
+     * 게시물 보기
+     * @param br
+     * @throws IOException
+     */
     private void viewBoard(BufferedReader br) throws IOException{
         try{
-            System.out.print("게시글 번호를 입력하세요 : ");
+            System.out.print("게시물 번호를 입력하세요 : ");
 
             BoardVO board = service.findBoard(Long.parseLong(br.readLine()));
 
@@ -142,8 +177,13 @@ public class BoardController {
         }
     }
 
-    void setUserName(BufferedReader br) throws IOException{
+    /**
+     * 유저 이름 설정
+     * @param userName
+     * @throws IOException
+     */
+    void setUserName(BufferedReader userName) throws IOException{
             System.out.print("유저 이름을 입력하세요 : ");
-            db.setUserName(br.readLine());
+            service.setUserName(userName.readLine());
     }
 }

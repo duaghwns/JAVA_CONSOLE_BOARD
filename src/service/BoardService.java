@@ -11,31 +11,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class BoardService {
-    DataBase db = DataBase.getInstance();
     BoardDAO dao = BoardDAO.getInstance();
 
     public void insert(BoardVO board) {
-        if(db.getBoardVO().isEmpty()){
-            board.setNo(1);
-        } else {
-            long max = 0;
+        long seq = getBoardSeq();
 
-            for(BoardVO bd : dao.findAll()){
-                if(max < bd.getNo()){
-                    max = bd.getNo();
-                }
-            }
-            board.setNo(max+1);
-        }
+        board.setNo(++seq);
+        setBoardSeq(seq);
 
         board.setRegDate(LocalDateTime.now().toLocalDate());
+
         dao.insert(board);
     }
 
     public boolean delete(long boardNo) {
         try {
-            BoardVO findedBoard = findBoard(boardNo);
-            if (dao.delete(findedBoard) == 1) {
+            BoardVO board = findBoard(boardNo);
+            if (dao.delete(board) == 1) {
                 return true;
             }
             return false;
@@ -57,6 +49,23 @@ public class BoardService {
 
     public List<BoardVO> findAll(){
         return dao.findAll();
+    }
+
+    // user, seq 분리 x
+    public String getUserName(){
+        return dao.getUserName();
+    }
+
+    public void setUserName(String userName) {
+        dao.setUserName(userName);
+    }
+
+    public long getBoardSeq(){
+        return dao.getSeq();
+    }
+
+    public void setBoardSeq(long seq){
+        dao.setSeq(seq);
     }
 
 }
