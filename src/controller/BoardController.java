@@ -20,11 +20,10 @@ public class BoardController {
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            // User 이름 입력받기
             if(service.getUserName() == null) {
                 setUserName(br);
             }
-            // 게시판 전체 목록 보여주기
+
             viewAllBoard(br);
 
             br.close();
