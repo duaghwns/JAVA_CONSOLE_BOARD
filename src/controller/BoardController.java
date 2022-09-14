@@ -183,7 +183,8 @@ public class BoardController {
      * @throws IOException
      */
     void setUserName(BufferedReader userName) throws IOException{
-            System.out.print("유저 이름을 입력하세요 : ");
-            service.setUserName(userName.readLine());
+        System.out.print("유저 이름을 입력하세요 : ");
+        service.setUserName(userName.readLine());
+        System.out.printf("안녕하세요 %s님\n", service.getUserName());
     }
 }
