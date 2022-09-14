@@ -107,25 +107,30 @@ public class BoardController {
 
     private void viewBoard(BufferedReader br) throws IOException{
         try{
-            System.out.println("보고싶은 게시글 번호를 입력하세요 : ");
+            System.out.print("게시글 번호를 입력하세요 : ");
 
-            Long findBoardNo = Long.parseLong(br.readLine());
+            BoardVO board = service.findBoard(Long.parseLong(br.readLine()));
 
-//            BoardVO board = service.findBoard(findBoardNo);
-            service.findBoard(findBoardNo);
-            Optional<BoardVO> board = Optional.ofNullable(BoardVO);
+            while (board == null) {
+                System.out.println("찾을 수 없는 번호입니다.");
+                System.out.print("다시 입력해주세요 : ");
+                board = service.findBoard(Long.parseLong(br.readLine()));
+            }
 
-            System.out.println("------------------------------------------------");
-            System.out.printf(" 제목 : %s\n",board.get().getTitle());
-            System.out.println("------------------------------------------------");
-            System.out.printf(" 작성자 : %s\n",board.get().getWriter());
-            System.out.println("------------------------------------------------");
-            System.out.printf(" 내용 : %s\n",board.get().getContent());
-            System.out.println("------------------------------------------------");
-            System.out.printf(" 작성일 : %s\n",board.get().getRegDate());
-            System.out.println("------------------------------------------------");
+            if (board != null) {
+                System.out.println("------------------------------------------------");
+                System.out.printf(" 제목 : %s\n", board.getTitle());
+                System.out.println("------------------------------------------------");
+                System.out.printf(" 작성자 : %s\n", board.getWriter());
+                System.out.println("------------------------------------------------");
+                System.out.printf(" 내용 : %s\n", board.getContent());
+                System.out.println("------------------------------------------------");
+                System.out.printf(" 작성일 : %s\n", board.getRegDate());
+                System.out.println("------------------------------------------------");
+            }
 
         } catch (NumberFormatException numberFormatException){
+            System.out.println("숫자만 입력 가능합니다.");
             viewBoard(br);
         }
     }
