@@ -107,8 +107,10 @@ public class BoardController {
 
             if (service.delete(Long.parseLong(br.readLine()))) {
                 System.out.println("삭제되었습니다.");
+            } else {
+                System.out.println("게시물을 찾을 수 없습니다.");
+                delete(br);
             }
-
         } catch (NumberFormatException numberFormatException) {
             System.out.println("숫자만 입력 가능합니다");
             delete(br);

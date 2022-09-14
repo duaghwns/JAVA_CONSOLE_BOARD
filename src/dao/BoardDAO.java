@@ -23,11 +23,8 @@ public class BoardDAO {
         boardList.add(board);
     }
 
-    public int delete(BoardVO board) {
-        if(boardList.remove(board)){
-            return 1;
-        }
-        return 0;
+    public void delete(BoardVO board) {
+        boardList.remove(board);
     }
 
     public List<BoardVO> findAll() {

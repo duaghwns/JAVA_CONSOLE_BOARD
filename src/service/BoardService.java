@@ -26,12 +26,11 @@ public class BoardService {
 
     public boolean delete(long boardNo) {
         try {
-            BoardVO board = findBoard(boardNo);
-            if (dao.delete(board) == 1) {
+            if(findBoard(boardNo) != null){
+                dao.delete(findBoard(boardNo));
                 return true;
             }
             return false;
-
         } catch (Exception e) {
             System.out.println(e);
             return false;
