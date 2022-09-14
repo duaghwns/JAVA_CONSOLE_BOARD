@@ -8,7 +8,6 @@ import vo.BoardVO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Optional;
 
 import static util.BoardUtil.*;
 
@@ -20,9 +19,23 @@ public class BoardController {
         try{
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            int choiceNum = 4;
-            setUserName(br);
+            // User 이름 입력받기
+            if(db.getUserName() == null) {
+                setUserName(br);
+            }
+            // 게시판 전체 목록 보여주기
+            viewAllBoard(br);
 
+            br.close();
+        } catch (NumberFormatException nfe){
+            System.out.println("숫자만 입력 가능합니다");
+            mainView();
+        }
+    }
+
+    private void viewAllBoard(BufferedReader br) throws IOException{
+        try{
+            int selectNumber;
             do {
                 System.out.println("  번호  |\t\t\t 제목 \t\t\t| \t 작성자 \t | \t 작성일");
 
@@ -34,25 +47,14 @@ public class BoardController {
                             , sliceBoardText(board.getRegDate()+"", BoardTextConst.BOARD_DATE.label()));
                 }
 
-                System.out.println("\n1.등록 2.삭제 3.게시물보기 4.종료");
+                System.out.println("\n1.등록 2.삭제 3.게시물보기 4.작성자변경 5.종료");
+                selectNumber = Integer.parseInt(br.readLine());
+                choiceView(br, selectNumber);
 
-                String input = br.readLine();
-                choiceNum = Integer.parseInt(input);
-                choiceView(br, choiceNum);
-
-            } while (choiceNum != 4);
-
-            br.close();
-        } catch (NumberFormatException nfe){
+            } while (selectNumber != 5);
+        } catch(NumberFormatException numberFormatException){
             System.out.println("숫자만 입력 가능합니다");
-            mainView();
-        }
-
-    }
-    void setUserName(BufferedReader br) throws IOException{
-        if(db.getUserName() == null){
-            System.out.print("유저 이름을 입력하세요 : ");
-            db.setUserName(br.readLine());
+            viewAllBoard(br);
         }
     }
 
@@ -66,6 +68,9 @@ public class BoardController {
                 break;
             case 3:
                 viewBoard(br);
+                break;
+            case 4:
+                setUserName(br);
                 break;
         }
     }
@@ -105,6 +110,8 @@ public class BoardController {
         }
     }
 
+
+
     private void viewBoard(BufferedReader br) throws IOException{
         try{
             System.out.print("게시글 번호를 입력하세요 : ");
@@ -133,5 +140,10 @@ public class BoardController {
             System.out.println("숫자만 입력 가능합니다.");
             viewBoard(br);
         }
+    }
+
+    void setUserName(BufferedReader br) throws IOException{
+            System.out.print("유저 이름을 입력하세요 : ");
+            db.setUserName(br.readLine());
     }
 }
