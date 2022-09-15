@@ -45,7 +45,7 @@ public class BoardController {
             do {
                 System.out.println("  번호  |\t\t\t 제목 \t\t\t| \t 작성자 \t | \t 작성일");
 
-                // 최신으로 생성된 게시물이 맨 위로 정렬되어 출력하기 위해 List 객체 새롭게 생성
+                // 최신으로 생성된 게시물이 맨 위로 정렬되어 출력하기 위해 List 객체 복사
                 List<BoardVO> boardList = new ArrayList<>(service.findAll());
 
                 Collections.reverse(boardList);
